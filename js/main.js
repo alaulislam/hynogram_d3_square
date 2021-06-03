@@ -11,10 +11,9 @@ function showError(text) {
 
 $(window).on('unload', function () {
 	// executed if the user clicks "Reload this Page"
-	$("#imageSize").val('square');
-	// $("script[src='js/square.js']").remove();
-	// $("script[src='js/wide.js']").remove();
-	// $("script[src='js/square.js']").remove();
+	// $("#imageSize").val('square');
+	$("#imageSize").val('wide');
+
 
 });
 $(function () {
@@ -27,7 +26,6 @@ $('#chart_generator').click(function (event) {
 	// 	showError("Please select hypnogram dimensions from the Drop-Down");
 	// 	return;
 	// }
-	alert(image_dimension);
 	if (image_dimension === "square") {
 
 		var canvas = document.getElementsByTagName('canvas')[0];
@@ -35,6 +33,22 @@ $('#chart_generator').click(function (event) {
 		canvas.height = 320;
 		squareChartGenerator(image_dimension);
 	}
+	if (image_dimension === "wide") {
+
+		var canvas = document.getElementsByTagName('canvas')[0];
+		canvas.width = 320;
+		canvas.height = 160;
+		wideChartGenerator(image_dimension);
+	}
+	if (image_dimension === "tall") {
+
+		var canvas = document.getElementsByTagName('canvas')[0];
+		canvas.width = 160;
+		canvas.height = 320;
+		tallChartGenerator(image_dimension);
+	}
+	
+	
 
 	$('#btn_download_main_div').removeClass('invisible').addClass('visible');
 	var count = $("#photoCount_card").val();

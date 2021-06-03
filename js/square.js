@@ -2,8 +2,10 @@ var imageArray = [];
 
 var imageSize;
 var squareChartGenerator = function (image_dimension) {
-	var maxNBDataFile = 119;
-	var count = 0;
+	var count = 35;
+	var maxNBDataFile = 36;
+
+
 	var textFontSize= 16;
 	imageSize = image_dimension;
 
@@ -14,18 +16,19 @@ var squareChartGenerator = function (image_dimension) {
 
 	function iterateThroughAllDataFile() {
 		for (i = count; i <= maxNBDataFile; i++) {
-			var dataFileName = "/data/data_" + i + ".csv";
-			console.log("dataFileName = " + dataFileName);
+			// var dataFileName = "/data/data_" + i + ".csv";
+			var dataFileName = "/data-attention-check/data_" + i + ".csv";
+			// console.log("dataFileName = " + dataFileName);
 
-			generateHypnogram(dataFileName, imageSize);
+			generateHypnogram(dataFileName, imageSize, i);
 		}
 	}
 
-	function generateHypnogram(datafile, imageSize) {
+	function generateHypnogram(datafile, imageSize, i) {
 
 		var margin = {
-				left: 55,
-				right: 28,
+				left: 41,
+				right:28,
 				top: 50,
 				bottom: 40
 			},
@@ -33,24 +36,21 @@ var squareChartGenerator = function (image_dimension) {
 			height = (320 - margin.top - margin.bottom); // 262.5
 
 		var chartLabeling = {
-			header_X: 35,
+			header_X: 42,
 			header_Y: -25,
-			left_AxisLine_X1: 0,
-			left_AxisLine_Y1: -1,
-			left_AxisLine_X2: 0,
-			left_AxisLine_Y2: 211,
+			left_AxisLine_X1: 5,
+			left_AxisLine_Y1: -5,
+			left_AxisLine_X2: 5,
+			left_AxisLine_Y2: 219,
 		};
 
-		var parseDate = d3.time.format("%Y-%m-%d %H:%M:%S").parse;
-
+		var parseDate = d3.time.format("%Y-%m-%d %H:%M:%S").parse;   
 
 		var chart = d3.select(".chart")
 			.attr("width", 320)
 			.attr("height", 320)
-			.append('g').attr('transform', 'translate(' + [margin.left, margin.top] + ')');
-			
-		var svg = d3.select("svg")
-			svg.append('text')
+			.append('g')
+			.attr('transform', 'translate(' + [margin.left, margin.top] + ')');
 
 		d3.csv(datafile, function (error, data) {
 
@@ -70,7 +70,7 @@ var squareChartGenerator = function (image_dimension) {
 
 
 			var yScale = d3.scale.linear()
-				.range([0, height - 20])
+				.range([0, height - 30])
 				.domain([0, d3.max(data, function (d) {
 					return d.close;
 				})]);
@@ -80,8 +80,7 @@ var squareChartGenerator = function (image_dimension) {
 				.scale(xScale)
 				.ticks(d3.time.hour, 1)
 				.orient("bottom");
-			// .tickSize([0, 0])
-
+			
 			var yAxis = d3.svg.axis().scale(yScale)
 				.orient("left").ticks(5)
 				.tickFormat(function (d) {
@@ -98,7 +97,12 @@ var squareChartGenerator = function (image_dimension) {
 						return " ";
 					}
 				})
-				.scale(yScale);
+				.scale(yScale)
+				.tickSize([0, 0])
+				// .tickPadding(86)
+				;
+
+			
 
 
 			barChartLabeling(chart, chartLabeling);
@@ -165,9 +169,9 @@ var squareChartGenerator = function (image_dimension) {
 					return xScale(d.date) - .75
 				}) // position the left of the rectangle
 				.attr("y", function (d) {
-					return yScale(d.close) - 7.5
+					return yScale(d.close) - 5.5
 				})
-				.attr("height", 15) // set the height
+				.attr("height", 22) // set the height
 				.attr("width", 1.70); // set the width
 
 
@@ -178,17 +182,13 @@ var squareChartGenerator = function (image_dimension) {
 				.call(customXAxis);
 
 			function customYAxis(g) {
+				console.log(g);
 				g.call(yAxis);
-				// g.select(".domain").remove();
-				g.selectAll(".tick line").attr("stroke", "white").attr("stroke-width", 2);
-				// g.selectAll(".tick:not(:first-of-type) line").attr("stroke", "#000").attr("stroke-width", 1.5);
-				g.selectAll(".tick text").attr("y", -6).attr("dy", ".71em");
 				g.select(".domain").remove();
-				// style="fill: #000000; stroke: none; font-size: 48px;"
-				// g.selectAll("line").style("stroke", "white");
-				// g.selectAll("path").style("stroke", "white");
-			    // g.selectAll("text").style("stroke", "none");
-				g.selectAll("text").style("fill", "white");
+				g.selectAll(".tick line").attr("stroke", "white").attr("stroke-width", 2);
+				g.attr("transform", "translate(0,8)")  // tick position
+				// g.selectAll(".tick text").attr("y", 4).attr("dy", ".71em");
+				g.selectAll("text").style("fill", "#FFFFFF");
 				g.selectAll("text").style("font-size", textFontSize+'px');
 				// g.selectAll("text").style("font-weight", "bold");
 				g.selectAll("text").style("font-family", "Arial");
@@ -200,34 +200,35 @@ var squareChartGenerator = function (image_dimension) {
 				g.select(".domain").remove();
 				g.selectAll(".tick line").attr("stroke", "white").attr("stroke-width", 2);
 				// g.selectAll(".tick:not(:first-of-type) line").attr("stroke", "#000").attr("stroke-width", 1.5);
-				g.attr("transform", "translate(0,0)");
+				// g.attr("transform", "translate(0,0)");
 				// g.attr("transform", "translate(0," + height + ")");
-				g.attr("transform", "translate(0," + 223 + ")");
-				g.selectAll(".tick text").attr("y", 12).attr("dy", ".71em");
+				g.attr("transform", "translate(0," + 225 + ")"); //tick mark to image
+				// g.selectAll(".tick text").attr("x", -4).attr("dy", ".71em"); //tick mark to text
+				g.selectAll(".tick text").attr("y", 12).attr("dy", ".71em"); //tick mark to text
 				g.selectAll(".tick text").each(function (d, i) {
 					// console.log(i);
-					if (i === 1 || i === 2 || i === 3 || i === 5 || i === 6 || i === 7) {
+					if (i === 1 || i === 2 || i === 3 || i === 4 || i === 5 || i === 6 || i === 7) {
 						this.remove();
 					}
 					if (i === 0) {
 						if (this.innerHTML == "10 PM") {
-							this.innerHTML = "10pm";
+							this.innerHTML = "22:00";
 						}
 					}
-					if (i === 4) {
-						if (this.innerHTML == "02 AM") {
-							this.innerHTML = "2am";
-						}
-					}
+					// if (i === 4) {
+					// 	if (this.innerHTML == "02 AM") {
+					// 		this.innerHTML = "2am";
+					// 	}
+					// }
 					if (i === 8) {
 						if (this.innerHTML == "06 AM") {
-							this.innerHTML = "6am";
+							this.innerHTML = "6:00";
 						}
 					}
 				});
 				g.selectAll(".tick line").each(function (d, i) {
 					// console.log(i);
-					if (i === 1 || i === 2 || i === 3 || i === 5 || i === 6 || i === 7) {
+					if (i === 1 || i === 2 || i === 3 || i === 4 || i === 5 || i === 6 || i === 7) {
 						// console.log(this);
 						// console.log(this.getAttribute('stroke'));
 						this.setAttribute('stroke', 'gray');
@@ -277,10 +278,14 @@ var squareChartGenerator = function (image_dimension) {
 
 
 	function savePNG(name, count) {
-		var html = d3.select("svg")
+		var html = d3.select(".chart")
 			.attr("version", 1.1)
 			.attr("xmlns", "http://www.w3.org/2000/svg")
 			.node().parentNode.innerHTML;
+		
+		// var b = document.getElementById('svgcanvas').svg;
+
+		console.log(html)
 
 		// var svgString = getSVGString(d3.select("svg").node());
 
@@ -306,28 +311,6 @@ var squareChartGenerator = function (image_dimension) {
 		  var canvas = createCanvas(320,320,true),
 		  context = canvas.getContext("2d");
 
-		// function setupCanvas(canvas) {
-		// 	// Get the device pixel ratio, falling back to 1.
-		// 	var dpr = window.devicePixelRatio || 1;
-		// 	// Get the size of the canvas in CSS pixels.
-		// 	var rect = canvas.getBoundingClientRect();
-		// 	// Give the canvas pixel dimensions of their CSS
-		// 	// size * the device pixel ratio.
-		// 	canvas.width = rect.width * dpr;
-		// 	canvas.height = rect.height * dpr;
-		// 	var ctx = canvas.getContext('2d');
-		// 	// Scale all drawing operations by the dpr, so you
-		// 	// don't have to worry about the difference.
-		// 	ctx.scale(dpr, dpr);
-		// 	return ctx;
-		//   }
-
-		//   var context = setupCanvas(document.getElementById("canvas"));
-
-		// var canvas = document.getElementById("canvas"),
-		// 		context = canvas.getContext("2d");
-				
-		
 
 		context.imageSmoothingEnabled = false;
 

@@ -1,10 +1,14 @@
 function galleryGenerator(imgData,imgName,image_dimension,count){
+  // console.log(imgData);
+  // console.log(imgName);
+  // console.log(image_dimension);
+  // console.log(count);
     var modalID = "modal"+count;
     var modalTarget = "#modal"+count;
     var saveBtnID = "saveBtn_"+count;
     var modalImageID = "modalImageID_"+count;
     let row = document.getElementById("canvas_images");
-          let col = $('<div>').addClass('col-lg-2 col-md-2 mb-2').appendTo(row);
+          let col = $('<div>').addClass('col-sm-5cols').appendTo(row);
           let href_dl = $('<a />');
           let imgFigure = $('<figure>');
           let imageHolder = $('<img />');

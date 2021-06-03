@@ -29,11 +29,26 @@
             -ms-interpolation-mode: nearest-neighbor;
          }
 
+         .col-sm-5cols{
+    position: relative;
+    min-height: 1px;
+    padding-right: 10px;
+    padding-left: 10px;
+}
+
+@media (min-width: 768px) {
+.col-sm-5cols {
+        width: 20%;
+        float: left;
+    }
+}
+
       </style>
    </head>
    <body>
       <!-- Page Content -->
       <div class="container">
+         <div class ="svgContainer"></div>
          <!-- Portfolio Item Heading -->
          <div class="col-12 justify-content-center align-items-center">
             <h1 class="my-4 text-center">Hypnogram <small>Study Images</small>
@@ -45,9 +60,9 @@
                <div class="form-group mx-sm-3 mb-2">
                   <select id="imageSize" class="form-control">
                      <!-- <option selected value="default">Select dimension</option> -->
-                     <option selected value="square">Square</option>
-                     <!-- <option value="wide">Wide</option>
-                     <option value="tall">Tall</option> -->
+                     <!-- <option selected value="square">Square</option> -->
+                     <option selected value="wide">Wide</option>
+                     <!-- <option selected value="tall">Tall</option> -->
                   </select>
                </div>
                <button type="submit" id="chart_generator" value="Submit" class="btn btn-primary mb-2">Generate</button>
@@ -55,14 +70,16 @@
          </div>
          <div class="row col-12">
             <div class="col-7">
-               <strong>T1:</strong> Did you wake up more than or equal to 4 times?</br>
+               <strong>T1:</strong> Were you awake more than or equal to 4 times?</br>
                <strong>T2:</strong> Did you have more than or equal to 4 transitions from REM to light sleep?</br>
                <strong>T3:</strong> Did you spend more time in REM than in Deep sleep?</br>
                <strong>L -></strong> YES ------ <strong>R -></strong> NO
             </div>
             <div class="col-1">
-               <div id="svg" style="visibility: hidden;">
-                  <svg class="chart" id="chartID">
+              
+               <div style="visibility: hidden;">
+                  <!-- <svg class="chart" id="svgcanvas"> -->
+                  <svg class="chart">
                      <rect width="100%" height="100%" fill="black"/>
                   </svg>
                </div>
@@ -120,10 +137,10 @@
       <script type="text/javascript" src="js/cardGeneration.js"></script>
       <script type="text/javascript" src="js/gallery.js"></script>
       <script type="text/javascript" src="js/download.js"></script>
-      <script type="text/javascript" src="js/main.js"></script>
-      <script type="text/javascript" src="js/square.js"></script>
-      <!-- <script type="text/javascript" src="js/wide.js"></script> -->
+      <!-- <script type="text/javascript" src="js/square.js"></script> -->
+      <script type="text/javascript" src="js/wide.js"></script>
       <!-- <script type="text/javascript" src="js/tall.js"></script> -->
+      <script type="text/javascript" src="js/main.js"></script>
    </body>
    <script type="text/javascript"></script>
 </html>
